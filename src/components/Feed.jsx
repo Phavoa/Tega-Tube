@@ -8,9 +8,12 @@ const Feed = () => {
   const [selectedCategory, setSelectedCategory] = useState("New");
   const [videos, setVideos] = useState([]);
 
+  console.log(videos)
+
   useEffect(() => {
-    fetchFromAPI(`search?part=snippet&q=${selectedCategory}`)
-      .then((data) => setVideos(data.items));
+    fetchFromAPI(`search?query=${selectedCategory}`).then(({data}) =>
+      setVideos(data)
+    );
   }, [selectedCategory, setSelectedCategory]);
   return (
     <Stack sx={{ flexDirection: { sx: "column", md: "row" } }}>
@@ -18,7 +21,7 @@ const Feed = () => {
         sx={{
           height: { sx: "auto", md: "92vh" },
           borderRight: "1px solid #3d3d3d",
-          px: { sx: 0, md: 2 }
+          px: { sx: 0, md: 2 },
         }}
       >
         <Sidebar
@@ -35,10 +38,7 @@ const Feed = () => {
         </Typography>
       </Box>
 
-      <Box
-        p={2}
-        sx={{ flex: 2, overflowY: "auto", height: "90vh" }}
-      >
+      <Box p={2} sx={{ flex: 2, overflowY: "auto", height: "90vh" }}>
         <Typography
           variant="h4"
           mb={2}
